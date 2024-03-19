@@ -5,6 +5,13 @@ const fileName = "./messages";
 
 const fileDb = {
     async getItems () {
+        const files = await fs.readdir(fileName);
+        return await Promise.all(
+            files.map(async file => {
+                const messageFile = await fs.readFile(fileName + '/' + file);
+                return JSON.parse(messageFile.toString());
+            })
+        );
     },
     async addItem (item: Message) {
         const dateTime = new Date().toISOString();
